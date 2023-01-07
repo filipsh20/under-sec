@@ -3,7 +3,8 @@ const session = require('express-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const protection = require('./controllers/protection');
+const {Authenticated, notAuthenticated} = require('./controllers/protection');
+const flash = require('connect-flash');
 const path = require('path');
 
 const app = express();
@@ -14,22 +15,32 @@ require('./database/connection')
 app.set('port', process.env.PORT);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
+app.use(express.static(path.join(__dirname, '/public')))
 
 //middlewars
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 app.use(session({
     secret: '12345678',
     saveUninitialized: true,
     resave: true
 }));
-app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(flash());
+app.use((req, res, next) => {
+    app.locals.signupSuccess = req.flash('signupSuccess');
+    app.locals.signupError = req.flash('signupError');
+    app.locals.signinError = req.flash('signinError');
+    next();
+  });
+
 //routes
-app.get('/', protection.notAuthenticated ,(req, res, next) => {res.render('home')})
-app.use('/auth',protection.Authenticated, require('./routes/auth'));
+app.get('/', notAuthenticated, (req, res, next) => {res.render('dashboard')});
+app.use('/account', notAuthenticated, require('./routes/account'));
+app.use('/auth', Authenticated, require('./routes/auth'));
 
 //starting server
 app.listen(app.get('port'), () => console.log(`Server running on port ${app.get('port')}`));
