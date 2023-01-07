@@ -7,7 +7,14 @@ router.get('/google', passport.authenticate('google', { scope: ['email', 'profil
 router.get('/google/callback', passport.authenticate('google', {
     successRedirect: '/',
     failureRedirect: '/auth/signup'
-}))
+}));
+
+//facebook auth
+router.get('/facebook', passport.authenticate('facebook', { scope: ['email', 'profile'] }));
+router.get('/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/auth/signup'
+}));
 
 //traditional auth
 router.get('/signup', (req, res, next) => res.render('signup'));
@@ -25,5 +32,4 @@ router.post('/signin', passport.authenticate('local-signin', {
     passReqToCallback: true
 }));
 
-
-module.exports = router
+module.exports = router;

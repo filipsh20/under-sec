@@ -1,5 +1,6 @@
 const passport = require('passport');
 const googleStrategy = require('passport-google-oauth2').Strategy;
+const facebookStrategy = require('passport-facebook').Strategy;
 const localStrategy = require('passport-local').Strategy;
 const {userSchema, userGoogleSchema} = require('../models/user-schema');
 
@@ -23,6 +24,16 @@ passport.use('google', new googleStrategy({
     const userGoogleInfo = new userGoogleSchema({ username: profile.displayName, email: profile.email, picture: profile.picture });
     //save info
     if (!verifyEmail) await userGoogleInfo.save();
+    return done(null, profile);
+}));
+
+passport.use('facebook', new facebookStrategy({
+    clientID: '563884955294289',
+    clientSecret: '0abca39dc7d51548308d6e2c9de44986',
+    callbackURL: `${process.env.URL}/auth/facebook/callback`,
+    passReqToCallback: true
+}, async (request, accessToken, refreshToken, profile, done) => {
+    console.log(profile)
     return done(null, profile);
 }));
 

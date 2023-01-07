@@ -1,16 +1,18 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const userSchema = new mongoose.Schema({
-    username: { type: String, unique: false, required: true },
-    email: { type: String, unique: true, required: true },
-    password: { type: String, unique: false, required: true }
-});
-
 const userGoogleSchema = new mongoose.Schema({
     username: { type: String, unique: false, required: true },
     email: { type: String, unique: true, required: true },
     picture: { type: String, unique: false, required: true },
+});
+
+
+
+const userSchema = new mongoose.Schema({
+    username: { type: String, unique: false, required: true },
+    email: { type: String, unique: true, required: true },
+    password: { type: String, unique: false, required: true }
 });
 
 userSchema.methods.hash = (password) => {
