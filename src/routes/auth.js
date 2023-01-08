@@ -3,14 +3,14 @@ const router = express.Router();
 const passport = require('../controllers/passport');
 
 //google auth
-router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+router.get('/google', passport.authenticate('google'));
 router.get('/google/callback', passport.authenticate('google', {
     successRedirect: '/',
     failureRedirect: '/auth/signup'
 }));
 
 //facebook auth
-router.get('/facebook', passport.authenticate('facebook', { scope: ['email', 'profile'] }));
+router.get('/facebook', passport.authenticate('facebook'));
 router.get('/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/',
     failureRedirect: '/auth/signup'

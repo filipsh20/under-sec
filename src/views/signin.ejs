@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/auth-style.css">
-    <title>UNDER SEC | Sign in</title>
+    <title>Under Sec | Sign in</title>
 </head>
 <body>
-    <div><% if(signinError) { %><label><%= signinError %></label><% } %>
+    <div class="error""><% if(signinError) { %><label><%= signinError %></label><% } %>
     </div>
     <div class="signin-container">
         <form class="info-form" action="/auth/signin" method="post">

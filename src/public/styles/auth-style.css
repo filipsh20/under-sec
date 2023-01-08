@@ -97,3 +97,11 @@ button:hover {
     height: 40%;
     margin-top: 6%;
 }
+
+.error{
+    background-color: #EF9A9A;
+}
+
+.success{
+    background-color: #4CAF50;
+}
